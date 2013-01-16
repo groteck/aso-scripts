@@ -9,7 +9,7 @@ if [[ "$#" > "0" ]]; then
   users=( $@ )
 else
   #else asign al users with uid > 499 
-  users=( `cat "/etc/passwd" | awk 'BEGIN {FS=":"; OFS=" "} {$3 > 499} {print $1}'`)
+  users=( `cat "/etc/passwd" | awk 'BEGIN {FS=":"; OFS=" "} $3 > 499 {print $1}'`)
 fi
 #create arrays with uids and names
 for index in "${!users[@]}"

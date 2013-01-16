@@ -1,8 +1,17 @@
 #!/bin/bash
-
-users=( `cat "/etc/passwd" | awk 'BEGIN {FS=":"; OFS=" "} {$3 > 499} {print $1}'`)
-uids=( `cat "/etc/passwd" | awk 'BEGIN {FS=":"; OFS=" "} {$3 > 499} {print $3}'`)
-names=( `cat "/etc/passwd" | awk 'BEGIN {FS=":"; OFS=" "} {$3 > 499} {print $5}'`)
+users=()
+uids=()
+names=()
+if [[ "$#" > "0" ]]; then
+  users=( $@ )
+else
+  users=( `cat "/etc/passwd" | awk 'BEGIN {FS=":"; OFS=" "} {$3 > 499} {print $1}'`)
+fi
+for index in "${!users[@]}"
+do
+  uids[$index]=`grep ${users[$index]} "/etc/passwd" | awk 'BEGIN {FS=":"; OFS=" "}{print $3}'`
+  names[$index]=`grep ${users[$index]} "/etc/passwd" | awk 'BEGIN {FS=":"; OFS=" "}{print $5}'`
+done
 
 for index in "${!users[@]}"
 do

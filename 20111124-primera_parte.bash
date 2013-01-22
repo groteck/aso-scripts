@@ -10,11 +10,11 @@ console=()
 if [[ "$#" < "1" ]]; then
   gusers=( `grep "^lpadmin:" "/etc/group" | awk 'BEGIN {FS=":"; OFS=" "} {print $4}'` )
   IFS=$','
-  set -- $gusers
+  set -- ${gusers[@]}
 fi
 users=( $@ )
 unset IFS
-
+echo ${users[@]}
 for index in "${!users[@]}"
 do
   #arrays whit all parameters of users
